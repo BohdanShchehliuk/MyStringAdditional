@@ -2,13 +2,14 @@ package String;
 
 public interface MyList {
 
-    void add(String e);
-    void add(String e, int pos);
+    void add(String string);
+    void add(String string, int positon);
     int size();
-    void remove(String e);
-    void remove(int pos);
+    void remove(String string);
+    void remove(int positon);
     void clear();
-    void set(String e, int pos);
-    int indexOf(String e);
-    String get(int pos);
-}
+    void set(String string, int positon);
+    int indexOf(String string);
+    String get(int positon);
+    }
+
