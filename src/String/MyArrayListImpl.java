@@ -1,100 +1,129 @@
 package String;
 
-import javax.print.attribute.standard.RequestingUserName;
-import java.lang.reflect.Array;
-import java.util.Arrays;
-
 public class MyArrayListImpl implements MyList {
- private String[] array;
-  private String[] arrayNew;
+    private String[] array = new String[10];
+    int counter = 0;
 
+    public String[] creating() {
+        String[] arrayNew = new String[array.length * 2];
+        System.arraycopy(array, 0, arrayNew, 0, (array.length));
+        array = arrayNew;
+        return array;
+    }
 
-  public void show (){
-      System.out.println(Arrays.toString(array));
-  }
+    public boolean cheakingAdd(int positon) {
+        if (positon > counter || positon < 0) {
+            System.out.printf("Ви ввели невірну позицію %d. Вона не може бути меншою за 0 та більшою за %d\n", positon, counter);
+            return false;
+        }
+        return true;
+    }
+
+    public boolean cheaking() {
+        if (array == null) {
+            System.out.println("Ваша стрічка пуста");
+            return false;
+        }
+        return true;
+    }
+
+    public boolean cheakingRemove(int position) {
+        if (position >= counter || cheaking() == false || position < 0) {
+            System.out.println("Ви ввели невірний індекс або масив пустий. Код:\n -1");
+            return false;
+        }
+        return true;
+    }
+
+    public void show() {
+        for (int i = 0; i < counter; i++) {
+            System.out.printf(array[i] + " ");
+        }
+        System.out.println(" ");
+    }
+
     @Override
     public void add(String string) {
-        if (array == null) {
-            array = new String[1];
-            array[0] = string;
-        } else {
-            String[] arrayNew = new String[array.length + 1];
-            arrayNew[array.length] = string;
-            System.arraycopy(array,0,arrayNew,0,(arrayNew.length-1));
-            array = arrayNew;
+        if (counter >= array.length) {
+            creating();
         }
+        array[counter++] = string;
     }
 
     @Override
     public void add(String string, int positon) {
-        if (array == null) {
-            System.out.println("Ви створили перший запис у масиві даних. До цього цього не було");
-            array = new String[1];
-            array[0] = string;
-            array = array;
-        } else if (positon <= array.length && positon>=0 ) {
-            String[] arrayNew = new String[array.length + 1];
-            System.arraycopy(array,0,arrayNew,0,(positon));
-            arrayNew[positon] = string;
-            System.arraycopy(array,positon,arrayNew,positon+1,(array.length-positon));
-            array = arrayNew;
-        } else {
-            System.out.println("Ви ввели не вірний індекс");
+        if (cheakingAdd(positon) == false) {
+            return;
+        } else if (counter == 9) {
+            creating();
         }
+        String[] arrayNew = new String[counter + 1];
+        System.arraycopy(array, 0, arrayNew, 0, (positon));
+        arrayNew[positon] = string;
+        System.arraycopy(array, positon, arrayNew, positon + 1, (counter - positon));
+        array = arrayNew;
+        counter++;
     }
 
     @Override
     public int size() {
-        return array.length;
+        return counter;
     }
 
     @Override
-    public void remove(String string) {
-        if (array == null) {
-            System.out.println("Ваша стрічка пуста");
+    public void removeAll(String string) {
+        if (cheaking() == false) {
+            return;
         } else {
             String[] arrayNew = new String[array.length];
-            int numberOfequaels = 0;
-            for (int i = 0; i < (arrayNew.length); i++) {
-                if (array[i].equals(string)==false) {
-                    arrayNew[numberOfequaels] = array[i];
-                    numberOfequaels++;
+            int numberOfdifference = 0;
+            for (int i = 0; i < counter; i++) {
+                if (array[i].equals(string) == false) {
+                    arrayNew[numberOfdifference++] = array[i];
                 }
             }
-            String[] arrayAdd = new String[numberOfequaels];
-            System.arraycopy(arrayNew,0,arrayAdd,0,(numberOfequaels));
+            System.out.printf("Слово _%s_ зустрічається кількість разів: %d. \n", string, counter - numberOfdifference);
+            String[] arrayAdd = new String[numberOfdifference];
+            System.arraycopy(arrayNew, 0, arrayAdd, 0, (numberOfdifference));
             array = arrayAdd;
+            counter = numberOfdifference;
         }
     }
 
     @Override
-    public void remove(int positon) {
-        if (array == null) {
-            System.out.println("Ваша стрічка пуста");
-        } else if (positon <= array.length &&positon>=0) {
-            String[] arrayNew = new String[array.length - 1];
-            int numberNew = 0;
-            for (int i = 0; i < (array.length); i++) {
-                if (i != positon) {
-                    arrayNew[numberNew] = array[i];
-                    numberNew++;
-                }
-            }
-           array = arrayNew;
+    public void remove(String string) {
+        int position = indexOf(string);
+        if (position == -1) {
+            System.out.println("-1");
+            return;
         } else {
-            System.out.println("Ви ввели невірний індекс");
+            remove(position);
+        }
+    }
+
+    @Override
+    public void remove(int position) {
+        if (cheakingRemove(position) == false) {
+            return;
+        } else {
+            String[] arrayNew = new String[counter - 1];
+            System.arraycopy(array, 0, arrayNew, 0, (position));
+            System.arraycopy(array, position + 1, arrayNew, position, (counter - (position + 1)));
+            array = arrayNew;
+            counter--;
         }
     }
 
     @Override
     public void clear() {
-        array = null;
+        counter = 0;
+        array = new String[10];
     }
 
     @Override
     public void set(String string, int position) {
-        if (position >= array.length) {
-            System.out.println("Ви ввели невірний індекс");
+        if (cheakingRemove(position) == false) {
+            return;
         } else {
             array[position] = string;
         }
@@ -102,24 +131,21 @@ public class MyArrayListImpl implements MyList {
 
     @Override
     public int indexOf(String string) {
-        for (int i = 0; i < array.length; i++) {
+        for (int i = 0; i < counter; i++) {
             if (array[i].equals(string)) {
                 return i;
             }
         }
-        System.out.print("Ви ввели невірний рядок. Код ");
+        System.out.println("Ви ввели невірний рядок. Код ");
         return -1;
     }
 
     @Override
     public String get(int position) {
-        if (position >= array.length) {
-            return "Ви ввели невірний рядок";
+        if (cheakingRemove(position) == false) {
+            return null;
         } else {
             return array[position];
         }
-    }
-    public void setArray(String[] array) {
-        this.array = array;
     }
 }
