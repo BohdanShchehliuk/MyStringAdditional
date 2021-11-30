@@ -1,10 +1,11 @@
 package String;
 
 public class MyArrayListImpl implements MyList {
-    private String[] array = new String[10];
-    int counter = 0;
+    private final int initialSize = 10;
+    String[] array = new String[10] ;
+    int counter;
 
-    public String[] creating() {
+    private String[] resize() {
         String[] arrayNew = new String[array.length * 2];
         System.arraycopy(array, 0, arrayNew, 0, (array.length));
         array = arrayNew;
@@ -45,17 +46,17 @@ public class MyArrayListImpl implements MyList {
     @Override
     public void add(String string) {
         if (counter >= array.length) {
-            creating();
+            resize();
         }
-        array[counter++] = string;
+        add(string,counter);
     }
 
     @Override
     public void add(String string, int positon) {
-        if (cheakingAdd(positon) == false) {
+        if (!cheakingAdd(positon)) {
             return;
-        } else if (counter == 9) {
-            creating();
+        } else if (counter == initialSize-1) {
+            resize();
         }
         String[] arrayNew = new String[counter + 1];
         System.arraycopy(array, 0, arrayNew, 0, (positon));
@@ -78,7 +79,7 @@ public class MyArrayListImpl implements MyList {
             String[] arrayNew = new String[array.length];
             int numberOfdifference = 0;
             for (int i = 0; i < counter; i++) {
-                if (array[i].equals(string) == false) {
+                if (!array[i].equals(string)) {
                     arrayNew[numberOfdifference++] = array[i];
                 }
             }
@@ -103,13 +104,10 @@ public class MyArrayListImpl implements MyList {
 
     @Override
     public void remove(int position) {
-        if (cheakingRemove(position) == false) {
+        if (!cheakingRemove(position)) {
             return;
         } else {
-            String[] arrayNew = new String[counter - 1];
-            System.arraycopy(array, 0, arrayNew, 0, (position));
-            System.arraycopy(array, position + 1, arrayNew, position, (counter - (position + 1)));
-            array = arrayNew;
+            System.arraycopy(array, position + 1, array, position, (counter - (position + 1)));
             counter--;
         }
     }
@@ -132,7 +130,7 @@ public class MyArrayListImpl implements MyList {
     @Override
     public int indexOf(String string) {
         for (int i = 0; i < counter; i++) {
-            if (array[i].equals(string)) {
+            if (string != null && array[i].equals(string)) {
                 return i;
             }
         }

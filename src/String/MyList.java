@@ -22,4 +22,3 @@ public interface MyList {
 
     String get(int positon);
 }
-
