@@ -1,8 +1,8 @@
 package String;
 
 public class MyArrayListImpl implements MyList {
-    private final int initialSize = 10;
-    String[] array = new String[10] ;
+    private final int INITIALSIZE = 10;
+    String[] array = new String[INITIALSIZE];
     int counter;
 
     private String[] resize() {
@@ -48,14 +48,14 @@ public class MyArrayListImpl implements MyList {
         if (counter >= array.length) {
             resize();
         }
-        add(string,counter);
+        add(string, counter);
     }
 
     @Override
     public void add(String string, int positon) {
         if (!cheakingAdd(positon)) {
             return;
-        } else if (counter == initialSize-1) {
+        } else if (counter == array.length - 1) {
             resize();
         }
         String[] arrayNew = new String[counter + 1];
@@ -79,7 +79,7 @@ public class MyArrayListImpl implements MyList {
             String[] arrayNew = new String[array.length];
             int numberOfdifference = 0;
             for (int i = 0; i < counter; i++) {
-                if (!array[i].equals(string)) {
+                if (string != null && !array[i].equals(string)) {
                     arrayNew[numberOfdifference++] = array[i];
                 }
             }
@@ -130,7 +130,7 @@ public class MyArrayListImpl implements MyList {
     @Override
     public int indexOf(String string) {
         for (int i = 0; i < counter; i++) {
-            if (string != null && array[i].equals(string)) {
+            if (string != null && array[i].equals(string) && cheaking() == true) {
                 return i;
             }
         }
