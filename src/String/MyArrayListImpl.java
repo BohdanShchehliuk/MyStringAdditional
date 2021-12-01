@@ -130,13 +130,16 @@ public class MyArrayListImpl implements MyList {
     @Override
     public int indexOf(String string) {
         for (int i = 0; i < counter; i++) {
-            if (string != null && array[i].equals(string) && cheaking() == true) {
+            if (string == null && array[i] == null) {
+                return i;
+            } else if (array[i] != null && array[i].equals(string)) {
                 return i;
             }
         }
         System.out.println("Ви ввели невірний рядок. Код ");
         return -1;
     }
+
 
     @Override
     public String get(int position) {
