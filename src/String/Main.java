@@ -59,6 +59,12 @@ public class Main {
         list.set("Богдан", 1);
         list.show();
 
+        list.remove(2);
+        list.show();
+
+        list.remove(3);
+        list.show();
+
         list.clear();
         list.show();
 

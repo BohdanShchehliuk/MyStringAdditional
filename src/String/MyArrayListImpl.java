@@ -1,9 +1,14 @@
 package String;
 
 public class MyArrayListImpl implements MyList {
-    private final int INITIALSIZE = 10;
-    String[] array = new String[INITIALSIZE];
+    private final int INITIAL_SIZE = 10;
+    String[] array;
     int counter;
+
+    public MyArrayListImpl() {
+     array = new String[INITIAL_SIZE];;
+    }
+
 
     private String[] resize() {
         String[] arrayNew = new String[array.length * 2];
@@ -29,7 +34,7 @@ public class MyArrayListImpl implements MyList {
     }
 
     public boolean cheakingRemove(int position) {
-        if (position >= counter || cheaking() == false || position < 0) {
+        if (position >= counter || !cheaking() || position < 0) {
             System.out.println("Ви ввели невірний індекс або масив пустий. Код:\n -1");
             return false;
         }
@@ -73,7 +78,7 @@ public class MyArrayListImpl implements MyList {
 
     @Override
     public void removeAll(String string) {
-        if (cheaking() == false) {
+        if (cheaking()) {
             return;
         } else {
             String[] arrayNew = new String[array.length];
@@ -120,7 +125,7 @@ public class MyArrayListImpl implements MyList {
 
     @Override
     public void set(String string, int position) {
-        if (cheakingRemove(position) == false) {
+        if (!cheakingRemove(position)) {
             return;
         } else {
             array[position] = string;
@@ -143,7 +148,7 @@ public class MyArrayListImpl implements MyList {
 
     @Override
     public String get(int position) {
-        if (cheakingRemove(position) == false) {
+        if (!cheakingRemove(position)) {
             return null;
         } else {
             return array[position];
