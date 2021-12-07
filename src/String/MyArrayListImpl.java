@@ -6,7 +6,8 @@ public class MyArrayListImpl implements MyList {
     int counter;
 
     public MyArrayListImpl() {
-     array = new String[INITIAL_SIZE];;
+        array = new String[INITIAL_SIZE];
+        ;
     }
 
 
@@ -51,7 +52,6 @@ public class MyArrayListImpl implements MyList {
     @Override
     public void add(String string) {
         if (counter >= array.length) {
-            resize();
         }
         add(string, counter);
     }
@@ -78,7 +78,7 @@ public class MyArrayListImpl implements MyList {
 
     @Override
     public void removeAll(String string) {
-        if (cheaking()) {
+        if (cheaking() || string == null) {
             return;
         } else {
             String[] arrayNew = new String[array.length];
@@ -120,7 +120,7 @@ public class MyArrayListImpl implements MyList {
     @Override
     public void clear() {
         counter = 0;
-        array = new String[10];
+        array = new String[INITIAL_SIZE];
     }
 
     @Override
