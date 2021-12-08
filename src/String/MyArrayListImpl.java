@@ -3,7 +3,7 @@ package String;
 public class MyArrayListImpl implements MyList {
     private final int INITIAL_SIZE = 10;
     private String[] array;
-    int counter;
+    private int counter;
 
     public MyArrayListImpl() {
         array = new String[INITIAL_SIZE];
