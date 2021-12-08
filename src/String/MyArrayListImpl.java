@@ -2,12 +2,11 @@ package String;
 
 public class MyArrayListImpl implements MyList {
     private final int INITIAL_SIZE = 10;
-    String[] array;
+    private String[] array;
     int counter;
 
     public MyArrayListImpl() {
         array = new String[INITIAL_SIZE];
-        ;
     }
 
 
@@ -51,8 +50,6 @@ public class MyArrayListImpl implements MyList {
 
     @Override
     public void add(String string) {
-        if (counter >= array.length) {
-        }
         add(string, counter);
     }
 
@@ -84,7 +81,7 @@ public class MyArrayListImpl implements MyList {
             String[] arrayNew = new String[array.length];
             int numberOfdifference = 0;
             for (int i = 0; i < counter; i++) {
-                if (string != null && !array[i].equals(string)) {
+                if (string != null && array[i] != null && !array[i].equals(string)) {
                     arrayNew[numberOfdifference++] = array[i];
                 }
             }
